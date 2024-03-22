@@ -1,0 +1,48 @@
+esphome:
+  name: "esp32-c6-bme280"
+  friendly_name: "BME280 - Environment Monitor"
+
+esp32:
+  board: esp32-c6-devkitc-1
+  variant: esp32c6
+  framework:
+    type: esp-idf
+    version: 5.1.0
+    platform_version: https://github.com/stintel/platform-espressif32#esp32-c6-test
+
+logger:
+    levle: WARN
+
+api:
+  encryption:
+    key: ""
+
+ota:
+  password: ""
+
+wifi:
+  ssid: ""
+  password: ""
+
+i2c:
+   - id: bus_a
+     sda: 21
+     scl: 22
+     scan: true
+
+sensor:
+    ##bme280_i2c START##
+  - platform: bme280_i2c
+    i2c_id: bus_a
+    temperature:
+      name: "Temperature"
+      oversampling: 16x
+    pressure:
+      name: "Pressure"
+      id: bme280_pressure
+    humidity:
+      name: "Relative Humidity"
+      id: bme280_humidity
+    address: 0x76
+    update_interval: 30s
+    ##bme280_i2c END##
